@@ -1,0 +1,14 @@
+# Ignore build and bin directories
+/build
+/bin
+
+# Ignore compiled object files and executables
+*.o
+*.out
+
+# Ignore local configuration files
+.vscode
+.DS_Store
+
+# Ignore files generated during the build process
+Makefile
