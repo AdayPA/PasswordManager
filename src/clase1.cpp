@@ -1,6 +1,6 @@
 // clase1.cpp
-#include "clase1.h"
+#include "../include/password.h"
 
-int Clase1::metodo1() {
+int Password::metodo1() {
     return 42;
 }

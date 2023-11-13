@@ -1,10 +1,10 @@
 // test_clase1.cpp
 #include <gtest/gtest.h>
-#include "../include/clase1.h"
+#include "../include/password.h"
 
 // Prueba para el método metodo1 de Clase1
 TEST(Clase1Test, Metodo1Test) {
-    Clase1 c;
+    Password c;
     EXPECT_EQ(c.metodo1(), 42);
 }
 

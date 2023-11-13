@@ -1,8 +1,8 @@
 // clase1.h
-#ifndef CLASE1_H
-#define CLASE1_H
+#ifndef PASSWORD_H
+#define PASSWORD_H
 
-class Clase1 {
+class Password {
 public:
     int metodo1();
 };
