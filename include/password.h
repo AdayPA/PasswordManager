@@ -2,9 +2,16 @@
 #ifndef PASSWORD_H
 #define PASSWORD_H
 
+#include <string>
+
+#pragma once
+
 class Password {
 public:
-    int metodo1();
+    Password();
+    ~Password();
+    std::string GenerateRandomPassword(int);
+    std::string calcularSHA256(const std::string&);
 };
 
 #endif // CLASE1_H

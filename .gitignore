@@ -1,7 +1,7 @@
-# Ignore build and bin directories
+# Ignore build, bin and test directories
 /build
 /bin
-
+/test
 # Ignore compiled object files and executables
 *.o
 *.out
