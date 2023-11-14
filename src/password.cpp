@@ -10,7 +10,7 @@
 #include <openssl/err.h>
 
 #ifdef __linux__
-#include <libsecret/secret.h>
+//include <libsecret/secret.h>
 #elif defined(_WIN32)
 #include <Windows.h>
 #include <Wincrypt.h>
