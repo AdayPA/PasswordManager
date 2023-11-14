@@ -1,12 +1,13 @@
 // main.cpp
 #include <iostream>
+#include <stdexcept>
+
 #include "../include/password.h"
 
+#include <libsecret/secret.h>
+#include <glib.h>
 
-int main() {
-    Password c1;
-
-    std::cout << "Resultado de Clase1::metodo1(): " << c1.metodo1() << std::endl;
-
+int main()
+{
     return 0;
 }
