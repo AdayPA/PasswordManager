@@ -1,7 +1,7 @@
 # Ignore build, bin and test directories
 /build
 /bin
-/test
+
 # Ignore compiled object files and executables
 *.o
 *.out
@@ -11,5 +11,5 @@
 .DS_Store
 
 # Ignore files generated during the build process
-Makefile
+
 
