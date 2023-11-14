@@ -4,19 +4,9 @@
 
 #include "../include/password.h"
 
+#include <libsecret/secret.h>
+#include <glib.h>
 
-
-int main() {
-
-    Password psswd1;
-
-    
-    std::cout<< psswd1.GenerateRandomPassword(0) <<std::endl;
-    std::cout<< psswd1.GenerateRandomPassword(20) <<std::endl;
-    std::cout<< psswd1.GenerateRandomPassword(20) <<std::endl;
-    std::cout<< psswd1.calcularSHA256("Hola, mundo!") <<std::endl;
-
-    std::cout << psswd1.calcularSHA256("aasdasd")<< std::endl;
-
-    return 0;
+int main()
+{
 }

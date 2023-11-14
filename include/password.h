@@ -1,4 +1,4 @@
-// clase1.h
+// password.h
 #ifndef PASSWORD_H
 #define PASSWORD_H
 
@@ -6,12 +6,18 @@
 
 #pragma once
 
-class Password {
+class Password
+{
 public:
     Password();
     ~Password();
-    std::string GenerateRandomPassword(int);
-    std::string calcularSHA256(const std::string&);
-};
+    std::string GenerateRandomPassword(int, int);
+    std::string computeSHA256(const std::string &);
+    std::string encryptAES(const std::string &, const std::string &);
+    std::string decryptAES(const std::string &, const std::string &);
+    std::string generateRandomSalt(void);
 
-#endif // CLASE1_H
+private:
+    std::string deriveKeyFromPassword(const std::string &, const std::string &);
+};
+#endif // password.h
