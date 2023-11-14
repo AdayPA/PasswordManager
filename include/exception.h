@@ -39,5 +39,23 @@ public:
     }
 };
 
+class Exception5: public std::exception
+{
+public:
+    const char *what() const noexcept override
+    {
+        return "Can not encrypt using AES";
+    }
+};
+
+class Exception6: public std::exception
+{
+public:
+    const char *what() const noexcept override
+    {
+        return "Can not encrypt using AES";
+    }
+};
+
 
 #endif // MIS_EXCEPCIONES_H

@@ -6,6 +6,8 @@
 #include <openssl/evp.h>
 #include <openssl/aes.h>
 #include <openssl/rand.h>
+#include <openssl/conf.h>
+#include <openssl/err.h>
 
 #ifdef __linux__
 #include <libsecret/secret.h>
@@ -155,16 +157,16 @@ std::string Password::computeSHA256(const std::string &entrada)
 
         return resultado;
     }
-    catch (const std::exception &e)
+    catch (const Exception5 &e)
     {
-        // Manejar cualquier excepción estándar aquí
+        //
         std::cerr << "Error: " << e.what() << std::endl;
         return "";
     }
     catch (...)
     {
-        // Capturar cualquier otra excepción no estándar
-        std::cerr << "Error desconocido durante el cálculo de SHA-256" << std::endl;
+        // No standar error
+        std::cerr << "Unknown error during SHA-256 calc" << std::endl;
         return "";
     }
 }
@@ -196,5 +198,95 @@ std::string Password::generateRandomSalt(void)
     {
         std::cerr << "Error: " << e.what() << std::endl;
         return "";
+    }
+}
+
+std::string Password::generateRandomIV(void)
+{
+    const int ivSize = 16; // Tamaño del IV para AES-256-CBC
+    std::string iv(ivSize, '\0');
+    if (RAND_bytes(reinterpret_cast<unsigned char *>(&iv[0]), ivSize) != 1)
+    {
+        throw std::runtime_error("Error al generar el IV aleatorio.");
+    }
+    return iv;
+}
+
+std::string Password::encryptAES(const std::string &plaintext, const std::string &key, const std::string &iv)
+{
+    // AES-256-CBC
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+
+    const EVP_CIPHER *cipher = EVP_aes_256_cbc();
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+
+    try
+    {
+        if (!EVP_EncryptInit_ex(ctx, cipher, NULL, (const unsigned char *)key.c_str(), (const unsigned char *)iv.c_str()))
+        {
+            throw std::runtime_error("Error al inicializar el contexto de cifrado.");
+        }
+
+        std::string ciphertext(plaintext.size() + EVP_CIPHER_block_size(cipher), '\0');
+
+        int len;
+        if (!EVP_EncryptUpdate(ctx, (unsigned char *)&ciphertext[0], &len, (const unsigned char *)plaintext.c_str(), plaintext.size()))
+        {
+            throw std::runtime_error("Error al cifrar.");
+        }
+
+        int final_len;
+        if (!EVP_EncryptFinal_ex(ctx, (unsigned char *)&ciphertext[len], &final_len))
+        {
+            throw std::runtime_error("Error al finalizar el cifrado.");
+        }
+
+        EVP_CIPHER_CTX_free(ctx);
+
+        ciphertext.resize(len + final_len);
+        return ciphertext;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Excepción en encryptAES: " << e.what() << std::endl;
+        EVP_CIPHER_CTX_free(ctx);
+        throw;
+    }
+}
+
+std::string Password::decryptAES(const std::string& ciphertext, const std::string& key, const std::string& iv) {
+// Función para descifrar utilizando AES-256-CBC
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+
+    const EVP_CIPHER* cipher = EVP_aes_256_cbc();
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+
+    try {
+        if (!EVP_DecryptInit_ex(ctx, cipher, NULL, (const unsigned char*)key.c_str(), (const unsigned char*)iv.c_str())) {
+            throw std::runtime_error("Error al inicializar el contexto de descifrado.");
+        }
+
+        std::string decryptedtext(ciphertext.size(), '\0');
+
+        int len;
+        if (!EVP_DecryptUpdate(ctx, (unsigned char*)&decryptedtext[0], &len, (const unsigned char*)ciphertext.c_str(), ciphertext.size())) {
+            throw std::runtime_error("Error al descifrar.");
+        }
+
+        int final_len;
+        if (!EVP_DecryptFinal_ex(ctx, (unsigned char*)&decryptedtext[len], &final_len)) {
+            throw std::runtime_error("Error al finalizar el descifrado.");
+        }
+
+        EVP_CIPHER_CTX_free(ctx);
+
+        decryptedtext.resize(len + final_len);
+        return decryptedtext;
+    } catch (const std::exception& e) {
+        std::cerr << "Excepción en decryptAES: " << e.what() << std::endl;
+        EVP_CIPHER_CTX_free(ctx);
+        throw;
     }
 }
