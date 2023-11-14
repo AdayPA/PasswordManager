@@ -4,9 +4,6 @@
 
 #include "../include/password.h"
 
-#include <libsecret/secret.h>
-#include <glib.h>
-
 int main()
 {
     return 0;
