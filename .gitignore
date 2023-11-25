@@ -10,6 +10,9 @@
 .vscode
 .DS_Store
 
+#Ignore Dockerfiles
+Dockerfile
+
 # Ignore files generated during the build process
 
 
