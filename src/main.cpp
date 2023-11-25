@@ -8,8 +8,14 @@
 #include "../include/datamanager.h"
 
 
+#ifdef DEVELOPMENT
+const std::string dbConnectionString = "host=localhost dbname=password_manager_database user=myuser password=mypassword";
+#else
+#endif
+
 int main()
 {
-
+    DBConnector connectorDirect(dbConnectionString);
+    connectorDirect.connect();
     return 0;
 }

@@ -9,7 +9,6 @@ public:
     ~SQLManager();
 
     bool executeQuery(const std::string& query);
-
 private:
     DBConnector& dbConnector;
 };

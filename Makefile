@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++14 -I./include -I./third_party/gtest/googletest/include -I/usr/include/postgresql
+CFLAGS = -std=c++14 -I./include -I./third_party/gtest/googletest/include -I/usr/include/postgresql -DDEVELOPMENT
 LDFLAGS = -pthread -L/usr/lib/x86_64-linux-gnu -lpq -lssl -lcrypto
 
 SRC_DIR = src

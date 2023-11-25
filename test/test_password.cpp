@@ -1,11 +1,18 @@
 // test_clase1.cpp
 #include <gtest/gtest.h>
-
+#include <iostream>
 #define UNIT_TEST
 #include "../include/password.h"
 #undef UNIT_TEST
 
 #include "../include/exception.h"
+#include "../include/dbconnector.h"
+
+#ifdef DEVELOPMENT
+const std::string dbConnectionString = "host=localhost dbname=password_manager_database user=myuser password=mypassword";
+#else
+#endif
+
 
 TEST(PasswordTest, GeneratePassword)
 {
@@ -61,4 +68,22 @@ TEST(AESTest, EncryptionDecryption)
 
     // Verify that the decrypted text is equal to the original text
     EXPECT_EQ(plaintext, decryptedtext);
+}
+
+TEST(DBConnectorTest, Connection)
+{
+    // Create an instance of DBConnector with the appropriate connection information
+    DBConnector dbConnector(dbConnectionString);
+
+    // Try to connect
+    EXPECT_TRUE(dbConnector.connect());
+
+    // Verify that the connection is active
+    EXPECT_TRUE(dbConnector.isConnected());
+
+    // Disconnect
+    dbConnector.disconnect();
+
+    // Verify that the connection is closed after disconnecting
+    EXPECT_FALSE(dbConnector.isConnected());
 }
