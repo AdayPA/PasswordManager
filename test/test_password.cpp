@@ -7,12 +7,12 @@
 
 #include "../include/exception.h"
 #include "../include/dbconnector.h"
+#include "../include/sqlmanager.h"
 
 #ifdef DEVELOPMENT
 const std::string dbConnectionString = "host=localhost dbname=password_manager_database user=myuser password=mypassword";
 #else
 #endif
-
 
 TEST(PasswordTest, GeneratePassword)
 {
@@ -80,6 +80,30 @@ TEST(DBConnectorTest, Connection)
 
     // Verify that the connection is active
     EXPECT_TRUE(dbConnector.isConnected());
+
+    // Disconnect
+    dbConnector.disconnect();
+
+    // Verify that the connection is closed after disconnecting
+    EXPECT_FALSE(dbConnector.isConnected());
+}
+
+TEST(SQLManagerTest, ExecuteQuery)
+{
+    // Create an instance of DBConnector with the appropriate connection information
+    DBConnector dbConnector(dbConnectionString);
+
+    // Try to connect
+    EXPECT_TRUE(dbConnector.connect());
+
+    // Create an instance of SQLManager
+    SQLManager sqlManager(dbConnector);
+
+    // Exec the query
+    const std::string query = "SELECT * FROM password";
+    pugi::xml_document resultDocument;
+    bool queryResult = sqlManager.executeQuery(query, resultDocument);
+    EXPECT_TRUE(queryResult);
 
     // Disconnect
     dbConnector.disconnect();

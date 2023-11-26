@@ -13,6 +13,7 @@
 #Ignore Dockerfiles
 Dockerfile
 
+#Ignore third party libs
+/third_party
+
 # Ignore files generated during the build process
-
-

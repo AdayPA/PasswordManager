@@ -1,10 +1,7 @@
 // password.h
-#ifndef PASSWORD_H
-#define PASSWORD_H
+#pragma once
 
 #include <string>
-
-#pragma once
 
 class Password
 {
@@ -26,4 +23,3 @@ public:
     std::string generateRandomIVForTesting(void) { return generateRandomIV(); }
 #endif
 };
-#endif // password.h

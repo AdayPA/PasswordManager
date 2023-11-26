@@ -1,6 +1,4 @@
-#ifndef EXCEPTION_H
-#define EXCEPTION_H
-
+#pragma once
 #include <stdexcept>
 
 class Exception1 : public std::exception
@@ -57,5 +55,20 @@ public:
     }
 };
 
+class Exception7: public std::exception
+{
+public:
+    const char *what() const noexcept override
+    {
+        return "Could not close the connection properly";
+    }
+};
 
-#endif // MIS_EXCEPCIONES_H
+class Exception8: public std::exception
+{
+public:
+    const char *what() const noexcept override
+    {
+        return "Connection not established";
+    }
+};

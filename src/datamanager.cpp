@@ -12,7 +12,7 @@ DataManager::~DataManager() {
 
 void DataManager::fetchDataAndProcess() {
     // Implementación para recuperar datos utilizando sqlManager
-    sqlManager.executeQuery("SELECT * FROM tabla_datos");
+    //sqlManager.executeQuery("SELECT * FROM tabla_datos");
     // Procesar los datos recuperados
     std::cout << "Procesando los datos recuperados..." << std::endl;
 }
